@@ -25,8 +25,8 @@ color = (0, 0, 0)
 cat_images = []
 
 def get_images():
-    cat_sheet = SpriteSheet("runningCat.png")
-    man_sheet = SpriteSheet("man.png")
+    cat_sheet = Sprite_sheet("runningCat.png")
+    man_sheet = Sprite_sheet("man.png")
 
     directions = ["n", "s", "e", "w"]
 
@@ -35,9 +35,28 @@ def get_images():
             cat_images.append(cat_sheet.get_image(j * 512, i * 256, 512, 256))
             cat_images[-1] = pygame.transform.smoothscale(cat_images[-1], (180, 90))
 
+    return cat_sheet
+
 def main():
     get_images()
     cat = Cat((-90, random.randint(50, height-50)), cat_images)
+    player = Player((width // 2, height // 2), man_images)
+
+    while True:
+        clock.ticks(60)
+        for event in pygame.event.get():
+            if event.type == "QUIT":
+                sys.exit()
+
+        keys = pygame.key.get_pressed()
+        if K_UP in keys:
+            player.up()
+        if K_DOWN in keys:
+            player.down()
+        if K_LEFT in keys:
+            player.left()
+        if K_RIGHT in keys:
+            player.right()
 
 if __name__ == "__main__":
     main()
